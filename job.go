@@ -46,9 +46,6 @@ func (j *Job) Context(id string) []byte {
 func (j *Job) ProtoUnmarshal(data []byte) (err error) {
 	pJob := &proto.Job{}
 	if err = protobuf.Unmarshal(data, pJob); err != nil {
-
-		fmt.Println(err)
-
 		return err
 	}
 
