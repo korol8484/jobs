@@ -2,8 +2,6 @@ module github.com/spiral/jobs/v2
 
 go 1.14
 
-replace github.com/spiral/goridge/v2 v2.4.4 => github.com/korol8484/goridge/v2 v2.4.4
-
 require (
 	github.com/aws/aws-sdk-go v1.16.14
 	github.com/beanstalkd/go-beanstalk v0.0.0-20180822062812-53ecdaa3bcfb
@@ -25,3 +23,5 @@ require (
 	github.com/stretchr/testify v1.5.1
 	google.golang.org/protobuf v1.23.0
 )
+
+replace github.com/spiral/goridge/v2 => github.com/korol8484/goridge/v2 v2.4.5-0.20200629164454-4500215bcfe3
