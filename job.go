@@ -1,8 +1,6 @@
 package jobs
 
 import (
-	"fmt"
-
 	protobuf "github.com/golang/protobuf/proto"
 	json "github.com/json-iterator/go"
 	proto "github.com/spiral/jobs/v2/proto"
