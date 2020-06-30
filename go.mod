@@ -11,6 +11,7 @@ require (
 	github.com/cenkalti/backoff/v4 v4.0.0
 	github.com/dustin/go-humanize v1.0.0
 	github.com/gofrs/uuid v3.1.0+incompatible
+	github.com/golang/protobuf v1.4.2
 	github.com/json-iterator/go v1.1.9
 	github.com/kr/beanstalk v0.0.0-20180818045031-cae1762e4858 // indirect
 	github.com/olekukonko/tablewriter v0.0.4
@@ -22,4 +23,5 @@ require (
 	github.com/spiral/roadrunner v1.8.0
 	github.com/streadway/amqp v0.0.0-20181205114330-a314942b2fd9
 	github.com/stretchr/testify v1.5.1
+	google.golang.org/protobuf v1.23.0
 )

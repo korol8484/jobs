@@ -1,6 +1,12 @@
 package jobs
 
-import json "github.com/json-iterator/go"
+import (
+	"fmt"
+
+	protobuf "github.com/golang/protobuf/proto"
+	json "github.com/json-iterator/go"
+	proto "github.com/spiral/jobs/v2/proto"
+)
 
 // Handler handles job execution.
 type Handler func(id string, j *Job) error
@@ -37,6 +43,42 @@ func (j *Job) Context(id string) []byte {
 	return ctx
 }
 
-func (j *Job) ProtoUnmarshal(data []byte, v interface{}) (err error) {
+func (j *Job) ProtoUnmarshal(data []byte) (err error) {
+	pJob := &proto.Job{}
+	if err = protobuf.Unmarshal(data, pJob); err != nil {
+
+		fmt.Println(err)
+
+		return err
+	}
+
+	j.Job = pJob.GetJob()
+	j.Payload = string(pJob.GetPayload())
+
+	pOpt := pJob.GetOptions()
+	if pOpt != nil {
+		j.Options = &Options{}
+
+		if pOpt.GetAttempts() != 0 {
+			j.Options.Attempts = int(pOpt.GetAttempts())
+		}
+
+		if pOpt.GetDelay() != 0 {
+			j.Options.Delay = int(pOpt.GetDelay())
+		}
+
+		if pOpt.GetPipeline() != "" {
+			j.Options.Pipeline = pOpt.GetPipeline()
+		}
+
+		if pOpt.GetRetryDelay() != 0 {
+			j.Options.RetryDelay = int(pOpt.GetRetryDelay())
+		}
+
+		if pOpt.GetTimeout() != 0 {
+			j.Options.Timeout = int(pOpt.GetTimeout())
+		}
+	}
+
 	return nil
 }
