@@ -2,7 +2,7 @@ module github.com/spiral/jobs/v2
 
 go 1.14
 
-replace github.com/spiral/goridge/v2 v2.4.4 => github.com/korol8484/goridge/v2 v2.4.5-0.20200629170527-5aead22a2027
+replace github.com/spiral/goridge/v2 v2.4.4 => github.com/korol8484/goridge/v2 v2.4.4
 
 require (
 	github.com/aws/aws-sdk-go v1.16.14
@@ -19,7 +19,7 @@ require (
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cobra v0.0.6
 	github.com/spf13/viper v1.6.2
-	github.com/spiral/goridge/v2 v2.4.4
+	github.com/spiral/goridge/v2 v2.4.4 // indirect
 	github.com/spiral/roadrunner v1.8.0
 	github.com/streadway/amqp v0.0.0-20181205114330-a314942b2fd9
 	github.com/stretchr/testify v1.5.1
