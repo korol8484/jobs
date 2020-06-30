@@ -36,3 +36,7 @@ func (j *Job) Context(id string) []byte {
 
 	return ctx
 }
+
+func (j *Job) ProtoUnmarshal(data []byte, v interface{}) (err error) {
+	return nil
+}
