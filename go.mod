@@ -24,4 +24,4 @@ require (
 	google.golang.org/protobuf v1.23.0
 )
 
-replace github.com/spiral/goridge/v2 => github.com/korol8484/goridge/v2 v2.4.5-0.20200629164454-4500215bcfe3
+replace github.com/spiral/goridge/v2 => github.com/korol8484/goridge/v2 v2.4.5-0.20200630140225-93bbf6837f7a
