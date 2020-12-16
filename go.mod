@@ -21,7 +21,6 @@ require (
 	github.com/spiral/roadrunner v1.8.0
 	github.com/streadway/amqp v0.0.0-20181205114330-a314942b2fd9
 	github.com/stretchr/testify v1.5.1
-	golang.org/x/tools v0.0.0-20190328211700-ab21143f2384
 	google.golang.org/protobuf v1.23.0
 )
 
