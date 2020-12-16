@@ -2,13 +2,24 @@ package amqp
 
 import (
 	"fmt"
+
 	"github.com/spiral/jobs/v2"
 	"github.com/streadway/amqp"
 )
 
+var jobAttributes = map[string]bool{
+	"rr-id":          true,
+	"rr-job":         true,
+	"rr-attempt":     true,
+	"rr-maxAttempts": false,
+	"rr-delay":       false,
+	"rr-timeout":     false,
+	"rr-retryDelay":  false,
+}
+
 // pack job metadata into headers
 func pack(id string, attempt int, j *jobs.Job) amqp.Table {
-	return amqp.Table{
+	table := amqp.Table{
 		"rr-id":          id,
 		"rr-job":         j.Job,
 		"rr-attempt":     int64(attempt),
@@ -17,11 +28,28 @@ func pack(id string, attempt int, j *jobs.Job) amqp.Table {
 		"rr-delay":       int64(j.Options.Delay),
 		"rr-retryDelay":  int64(j.Options.RetryDelay),
 	}
+
+	for key, val := range j.Headers {
+		if _, ok := jobAttributes[key]; !ok {
+			table[key] = val
+		}
+	}
+
+	return table
 }
 
 // unpack restores jobs.Options
 func unpack(d amqp.Delivery) (id string, attempt int, j *jobs.Job, err error) {
 	j = &jobs.Job{Payload: string(d.Body), Options: &jobs.Options{}}
+
+	mapH := make(map[string]string)
+	for key, header := range d.Headers {
+		if _, ok := header.(string); ok {
+			if ok = jobAttributes[key]; !ok {
+				mapH[key] = header.(string)
+			}
+		}
+	}
 
 	if _, ok := d.Headers["rr-id"].(string); !ok {
 		return "", 0, nil, fmt.Errorf("missing header `%s`", "rr-id")
@@ -34,7 +62,9 @@ func unpack(d amqp.Delivery) (id string, attempt int, j *jobs.Job, err error) {
 	if _, ok := d.Headers["rr-job"].(string); !ok {
 		return "", 0, nil, fmt.Errorf("missing header `%s`", "rr-job")
 	}
+
 	j.Job = d.Headers["rr-job"].(string)
+	j.Headers = mapH
 
 	if _, ok := d.Headers["rr-maxAttempts"].(int64); ok {
 		j.Options.Attempts = int(d.Headers["rr-maxAttempts"].(int64))

@@ -22,6 +22,9 @@ type Job struct {
 
 	// Options contains set of PipelineOptions specific to job execution. Can be empty.
 	Options *Options `json:"options,omitempty"`
+
+	// Job Headers
+	Headers map[string]string
 }
 
 // Body packs job payload into binary payload.
@@ -33,9 +36,10 @@ func (j *Job) Body() []byte {
 func (j *Job) Context(id string) []byte {
 	ctx, _ := json.Marshal(
 		struct {
-			ID  string `json:"id"`
-			Job string `json:"job"`
-		}{ID: id, Job: j.Job},
+			ID      string            `json:"id"`
+			Job     string            `json:"job"`
+			Headers map[string]string `json:"headers"`
+		}{ID: id, Job: j.Job, Headers: j.Headers},
 	)
 
 	return ctx
@@ -49,6 +53,7 @@ func (j *Job) ProtoUnmarshal(data []byte) (err error) {
 
 	j.Job = pJob.GetJob()
 	j.Payload = string(pJob.GetPayload())
+	j.Headers = pJob.GetHeaders()
 
 	pOpt := pJob.GetOptions()
 	if pOpt != nil {

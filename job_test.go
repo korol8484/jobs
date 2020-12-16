@@ -1,8 +1,9 @@
 package jobs
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestJob_Body(t *testing.T) {
@@ -14,5 +15,11 @@ func TestJob_Body(t *testing.T) {
 func TestJob_Context(t *testing.T) {
 	j := &Job{Job: "job"}
 
-	assert.Equal(t, []byte(`{"id":"id","job":"job"}`), j.Context("id"))
+	assert.Equal(t, []byte(`{"id":"id","job":"job","headers":null}`), j.Context("id"))
+}
+
+func TestJob_Context_Headers(t *testing.T) {
+	j := &Job{Job: "job", Headers: map[string]string{"test": "test"}}
+
+	assert.Equal(t, []byte(`{"id":"id","job":"job","headers":{"test":"test"}}`), j.Context("id"))
 }
